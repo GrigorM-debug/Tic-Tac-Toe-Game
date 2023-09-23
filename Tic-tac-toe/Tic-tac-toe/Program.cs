@@ -1,4 +1,4 @@
-﻿namespace Tic_tac_toe
+namespace Tic_tac_toe
 {
     class Program
     {
@@ -85,11 +85,16 @@
         {
             Console.WriteLine($"Player {currentPlayer} choose row and column (0-2): ");
 
-            int row = int.Parse(Console.ReadLine());
-            int col = int.Parse(Console.ReadLine());
+            Console.Write("The row: ");
+            string input = Console.ReadLine();
+            Console.Write("The col: ");
+            string input2 = Console.ReadLine();
 
-            if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row, col] == ' ')
+            if (IsMoveValid(input, input2, board))
             {
+                int row = int.Parse(input);
+                int col = int.Parse(input2);
+
                 board[row, col] = currentPlayer;
 
                 if (CheckForWin(board))
@@ -104,14 +109,19 @@
                     Console.WriteLine("Game is draw !");
                     return false;
                 }
+
             }
             else
             {
-                Console.WriteLine("Invalid move! Try again.");
+                Console.WriteLine("Invalid move! Other player turn.");
             }
 
-            //DrawingBoard(row, col, board);
             return true;
+        }
+
+        static bool IsMoveValid(string input, string input2, char[,] board)
+        {
+            return int.TryParse(input.ToString(), out int row) && int.TryParse(input2.ToString(), out int col) && row >= 0 && row < 3 && col >= 0 && col < 3 && board[row, col] == ' ';
         }
 
         static bool CheckForWin(char[,] board)
